@@ -1,0 +1,16 @@
+.Homeheader_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 100px;
+  background-color: rgb(2, 36, 65);
+  color: rgba(234, 180, 30) !important;
+}
+.header_right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header_right > Button {
+  color: rgba(234, 180, 80) !important;
+}

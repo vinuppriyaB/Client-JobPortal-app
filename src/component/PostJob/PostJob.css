@@ -1,0 +1,20 @@
+.PostJob_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Post_Card {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  justify-content: center;
+  width: 500px !important;
+  padding: 30px 20px;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 425px) {
+  .Post_Card {
+    width: 300px !important;
+  }
+}

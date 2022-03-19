@@ -1,0 +1,21 @@
+@media only screen and (max-width: 425px) {
+  .Recruiter_cardContent {
+    display: flex !important;
+
+    flex-direction: column !important;
+  }
+  .recruiter_card {
+    padding: 10px;
+    margin: 10px !important;
+    padding: 10px 20px !important;
+  }
+  .recruiter_card_imgBox {
+    display: flex;
+    align-items: center;
+    padding: 0px 30px !important;
+  }
+  /* .recruiter_card_buttons {
+    display: flex !important;
+    flex-direction: row !important;
+  } */
+}
