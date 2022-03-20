@@ -9,12 +9,7 @@ const HomeHeader = () => {
   return (
     <div className="Homeheader_container">
       <div className="header_left">
-        <h3>Job Portal</h3>
-      </div>
-      <div className="header_right">
-        <Button variant="text" onClick={() => history.push("/login")}>
-          Home
-        </Button>
+        <h3>JOB PORTAL APPLICATION</h3>
       </div>
     </div>
   );
