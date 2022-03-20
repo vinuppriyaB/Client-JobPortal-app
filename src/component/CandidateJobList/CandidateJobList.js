@@ -4,25 +4,32 @@ import { useHistory } from "react-router";
 import axios from "axios";
 import CandidateJobCard from "./CandidateJobCard";
 import "./CandidateJobList.css";
+
+// component to Fetch the available job for candidate
 const CandidateJobList = () => {
   const { user, handleGetPost, jobPost } = UserState();
-  console.log(user);
   const history = useHistory();
 
   const [postedJob, setPostedJob] = useState([]);
   useEffect(() => {
     handleGetallPost();
   }, []);
-  const handleGetallPost = async () => {
-    try {
-      let res = await axios.get("http://localhost:5000/api/job/getalljob");
-      console.log(res);
-      if (res) {
-        console.log(res.data);
-        setPostedJob(res.data);
-        // localStorage.setItem("userInfo", JSON.stringify(res.data));
 
-        // history.push("/chats");
+  // Get available Job offer forr candidate
+  const handleGetallPost = async () => {
+    const headerData = {
+      headers: {
+        token: user.token,
+      },
+    };
+    try {
+      let res = await axios.get(
+        "http://localhost:5000/api/job/getalljob",
+        headerData
+      );
+
+      if (res) {
+        setPostedJob(res.data);
       }
     } catch (e) {
       console.log(e);

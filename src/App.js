@@ -5,16 +5,12 @@ import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import RecruiterPage from "./pages/RecruiterPage";
 import CandidatePage from "./pages/CandidatePage";
-import PostJob from "./component/PostJob/PostJob";
-import RecruiterJobPostedList from "./component/RecruiterJobPostedListPage/RecruiterJobPostedList";
-import RecruiterDetailsupdate from "./component/RecruiterDetailsupdate/RecruiterDetailsupdate";
-import CandidateDetailsUpdate from "./component/CandidateDetailsUpdate/CandidateDetailsUpdate";
-import CandidateJobList from "./component/CandidateJobList/CandidateJobList";
 import RecruiterPostUpdate from "./component/RecruiterPostUpdate/RecruiterPostUpdate";
 import CandidateUpdatePage from "./pages/CandidateUpdatePage";
 import RecruiterUpdatePage from "./pages/RecruiterUpdatePage";
 import RecruiterJobPostPage from "./pages/RecruiterJobPostPage";
 import CandidatesList from "./component/CandidatesDetails/CandidatesList";
+import MoreAboutJob from "./component/MoreAboutJob/MoreAboutJob";
 
 function App() {
   return (
@@ -50,6 +46,9 @@ function App() {
         </Route>
         <Route path="/candidatedetail/:id">
           <CandidatesList />
+        </Route>
+        <Route path="/moreabout/:id1/:id2">
+          <MoreAboutJob />
         </Route>
       </Switch>
     </div>

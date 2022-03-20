@@ -8,13 +8,17 @@ import { useHistory } from "react-router";
 import axios from "axios";
 import "./RecruiterPostUpdate.css";
 import { useParams } from "react-router";
+import ArrowBackIosNewSharpIcon from "@mui/icons-material/ArrowBackIosNewSharp";
+
+// Function to Edit the posted job by Recruiter
 
 const RecruiterPostUpdate = () => {
   const { user, handleGetPost, jobPost } = UserState();
-  console.log(user);
+
   const { id } = useParams();
-  console.log(id);
+
   const history = useHistory();
+
   const [companyName, setCompanyName] = useState("");
   const [logo, setlogo] = useState("");
   const [role, setRole] = useState("");
@@ -23,16 +27,27 @@ const RecruiterPostUpdate = () => {
   const [CTC, setCTC] = useState("");
   const [opening, setOpening] = useState("");
   const [roundCount, setRoundCount] = useState("");
-  const [Rounds, setRounds] = useState([]);
+  const [Rounds, setRounds] = useState("");
+
   useEffect(() => {
     getJobDetails();
   }, []);
+
+  // Function to get data to populate in Inputfield
+
   const getJobDetails = async () => {
+    const headerData = {
+      headers: {
+        token: user.token,
+      },
+    };
+
     try {
-      let res = await axios.get(`http://localhost:5000/api/job/getJob/${id}`);
-      console.log(res);
+      let res = await axios.get(
+        `https://career-growth-platforrm.herokuapp.com/api/job/getJob/${id}`,
+        headerData
+      );
       if (res) {
-        console.log(res.data);
         let result = res.data;
         setCompanyName(result.companyName);
         setlogo(result.logo);
@@ -42,19 +57,20 @@ const RecruiterPostUpdate = () => {
         setCTC(result.CTC);
         setOpening(result.opening);
         setRoundCount(result.roundCount);
-        setRounds(result.Rounds);
-
-        // handleGetPost(user._id);
-        // localStorage.setItem("userInfo", JSON.stringify(res.data));
-
-        // history.push("/chats");
+        setRounds(result.Rounds.join(","));
       }
     } catch (e) {
       console.log(e);
     }
   };
+
+  // Function to update the data in database
+
   const updateJobDetails = async (e) => {
     e.preventDefault();
+
+    const interviewRounds = Rounds.split(",");
+
     const bodyData = {
       postedby: user._id,
       companyName: companyName,
@@ -65,32 +81,31 @@ const RecruiterPostUpdate = () => {
       CTC: CTC,
       opening: opening,
       roundCount: roundCount,
-      Rounds: Rounds,
+      Rounds: interviewRounds,
     };
-    console.log(bodyData);
+    const headerData = {
+      headers: {
+        token: user.token,
+      },
+    };
+
     try {
       let res = await axios.put(
-        `http://localhost:5000/api/job/updatejob/${id}`,
-        bodyData
+        `https://career-growth-platforrm.herokuapp.com/api/job/updatejob/${id}`,
+        bodyData,
+        headerData
       );
-      console.log(res);
       if (res) {
-        console.log(res.data);
-        // handleGetPost(user._id);
-        // localStorage.setItem("userInfo", JSON.stringify(res.data));
-
-        // history.push("/chats");
+        window.alert("Update Successfully");
       }
     } catch (e) {
       console.log(e);
     }
   };
+
   return (
-    <div className="login_container">
-      <Card
-        sx={{ minWidth: 375, maxWidth: 775, padding: "25px" }}
-        className="login_Card"
-      >
+    <div className="PostUpdate_container">
+      <Card className="PostUpdate_Card">
         <div>
           <h2>Update Job Details</h2>
         </div>
@@ -108,7 +123,9 @@ const RecruiterPostUpdate = () => {
           />
         </div>
         <div>
-          <InputLabel htmlFor="outlined-adornment-password">Logo</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Logo URL
+          </InputLabel>
           <TextField
             id="outlined-basic"
             variant="outlined"
@@ -185,7 +202,7 @@ const RecruiterPostUpdate = () => {
         </div>
         <div>
           <InputLabel htmlFor="outlined-adornment-password">
-            Round List
+            List the Rounds
           </InputLabel>
           <TextField
             id="outlined-basic"
@@ -194,17 +211,23 @@ const RecruiterPostUpdate = () => {
             value={Rounds}
             onChange={(e) => setRounds(e.target.value)}
           />
+          <p style={{ fontSize: "11px" }}>Enter Rounds with comma seperation</p>
         </div>
 
-        <div>
-          <Button variant="contained" onClick={(e) => updateJobDetails(e)}>
-            update
-          </Button>
+        <div className="Update_btns">
           <Button
-            variant="contained"
+            className="back_btn"
+            variant="text"
             onClick={(e) => history.push("/recruiter")}
           >
-            Back
+            <ArrowBackIosNewSharpIcon /> Back
+          </Button>
+          <Button
+            className="button_color"
+            variant="contained"
+            onClick={(e) => updateJobDetails(e)}
+          >
+            update
           </Button>
         </div>
       </Card>

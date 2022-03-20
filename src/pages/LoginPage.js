@@ -6,14 +6,15 @@ import { UserState } from "../context/UserProvider";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router";
 import axios from "axios";
+import HomeHeader from "../component/homepage/HomeHeader";
+
+// Login page for both Candidate and Recruiter
 
 const LoginPage = () => {
   const { user, setUser } = UserState();
@@ -40,84 +41,92 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const userDetail = {
-      email: email,
-      password: password,
-    };
-    console.log(userDetail);
+
     try {
-      let { data } = await axios.post(
-        "http://localhost:5000/api/candidate/login",
+      let res = await axios.post(
+        "https://career-growth-platforrm.herokuapp.com/api/candidate/login",
         {
           email: email,
           password: password,
         }
       );
-      console.log(data);
-      if (data) {
-        localStorage.setItem("userData", JSON.stringify(data));
-        setUser(data);
-        if (data.isCandidate) history.push("/candidate");
+
+      if (res) {
+        localStorage.setItem("userData", JSON.stringify(res.data));
+        setUser(res.data);
+        if (res.data.isCandidate) history.push("/candidate");
         else history.push("/recruiter");
       }
     } catch (e) {
       console.log(e);
+      window.alert("Invalid Credential");
     }
   };
   return (
-    <div className="login_container">
-      <Card className="login_Card">
-        <div>
-          <h2>Login</h2>
-        </div>
+    <>
+      <HomeHeader />
+      <div className="login_container">
+        <Card className="login_Card">
+          <div>
+            <h2>Login</h2>
+          </div>
 
-        <div>
-          <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
-          <TextField
-            id="outlined-basic"
-            variant="outlined"
-            fullWidth
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <InputLabel htmlFor="outlined-adornment-password">
-            Password
-          </InputLabel>
-          <OutlinedInput
-            fullWidth
-            id="outlined-adornment-password"
-            type={values.showPassword ? "text" : "password"}
-            value={password}
-            onChange={handleChange("password")}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            // label="Password"
-          />
-        </div>
-        <div>
-          <Button variant="text" onClick={() => history.push("/register")}>
-            Create New Account
-          </Button>
-        </div>
-        <div>
-          <Button variant="contained" onClick={(e) => handleLogin(e)}>
-            login
-          </Button>
-        </div>
-      </Card>
-    </div>
+          <div>
+            <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <InputLabel htmlFor="outlined-adornment-password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              fullWidth
+              id="outlined-adornment-password"
+              type={values.showPassword ? "text" : "password"}
+              value={password}
+              onChange={handleChange("password")}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              // label="Password"
+            />
+          </div>
+          <div>
+            <Button
+              variant="text"
+              className="back_btn"
+              onClick={() => history.push("/register")}
+            >
+              Create New Account
+            </Button>
+          </div>
+          <div>
+            <Button
+              variant="contained"
+              className="button_color"
+              onClick={(e) => handleLogin(e)}
+            >
+              login
+            </Button>
+          </div>
+        </Card>
+      </div>
+    </>
   );
 };
 

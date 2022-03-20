@@ -1,0 +1,38 @@
+.AboutJob_container {
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 0px 50px;
+}
+.AboutJob_Recruiter {
+  display: flex;
+  flex-direction: column;
+}
+.recruiter_Avatar {
+  height: 70px !important;
+  width: 70px !important;
+}
+.recruiter_Name {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.AboutJob_Company {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.Company_logo {
+  height: 70px;
+  width: 200px;
+}
+.apply_btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media screen and (max-width: 425px) {
+  .Company_logo {
+    height: 50px;
+    width: 70px;
+  }
+}

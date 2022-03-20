@@ -4,20 +4,15 @@ import { useHistory } from "react-router";
 import "./CandidateHeader.css";
 import { UserState } from "../../context/UserProvider";
 import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 
+// Candidate Navbar
 const CandidateHeader = () => {
-  const { user, handleGetPost, jobPost, setUser, canSelect, setCanSelect } =
-    UserState();
+  const { user, setUser, canSelect, setCanSelect } = UserState();
   const history = useHistory();
-  console.log(canSelect);
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -30,7 +25,8 @@ const CandidateHeader = () => {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-  const handleLogin = (e) => {
+
+  const handleLogout = (e) => {
     localStorage.removeItem("userData");
     setUser("");
     history.push("/login");
@@ -67,7 +63,7 @@ const CandidateHeader = () => {
           variant="text"
           onClick={(e) => {
             setCanSelect([false, false, true]);
-            handleLogin(e);
+            handleLogout(e);
           }}
           className={canSelect[2] ? " selected " : " heading title "}
         >
@@ -144,7 +140,7 @@ const CandidateHeader = () => {
             >
               <div
                 className={canSelect[3] ? " selected" : "title"}
-                onClick={(e) => handleLogin(e)}
+                onClick={(e) => handleLogout(e)}
               >
                 Logout
               </div>

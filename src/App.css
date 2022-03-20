@@ -1,0 +1,26 @@
+.button_color {
+  background-color: rgb(2, 36, 65) !important;
+  /* color: rgba(234, 180, 30) !important; */
+  /* font-size: large !important; */
+}
+.back_btn {
+  color: darkgreen !important;
+}
+.delete_btn {
+  background-color: darkred !important;
+  display: flex !important;
+  justify-content: space-evenly !important;
+}
+.edit_btn {
+  background-color: rgb(2, 36, 65) !important;
+  display: flex !important;
+  justify-content: space-evenly !important;
+}
+.view_btn {
+  background-color: rgba(234, 180, 30) !important;
+}
+.icon {
+  /* margin-left: 10px !important; */
+  height: 18px !important;
+  width: 18px !important;
+}

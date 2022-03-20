@@ -4,20 +4,18 @@ import Button from "@mui/material/Button";
 import { UserState } from "../../context/UserProvider";
 import { useHistory } from "react-router";
 import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
+
+// Recruiter Nav bar
 
 const RecruiterHeader = () => {
   const { user, handleGetPost, jobPost, setUser, recSelect, setRecSelect } =
     UserState();
-  console.log(recSelect);
+
   const history = useHistory();
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -30,11 +28,15 @@ const RecruiterHeader = () => {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-  const handleLogin = (e) => {
+
+  //Handle Logout Function to set free the user details store in local Storage
+
+  const handleLogout = (e) => {
     localStorage.removeItem("userData");
     setUser("");
     history.push("/login");
   };
+
   return (
     <div className="RecruiterHeader_container">
       <div className="Recheader_left">
@@ -74,7 +76,7 @@ const RecruiterHeader = () => {
 
         <Button
           variant="text"
-          onClick={(e) => handleLogin(e)}
+          onClick={(e) => handleLogout(e)}
           className={recSelect[3] ? " selected " : "title "}
         >
           logout
@@ -166,7 +168,7 @@ const RecruiterHeader = () => {
             >
               <div
                 className={recSelect[3] ? " selected" : "title"}
-                onClick={(e) => handleLogin(e)}
+                onClick={(e) => handleLogout(e)}
               >
                 Logout
               </div>

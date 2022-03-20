@@ -3,3 +3,18 @@
   flex-direction: column;
   row-gap: 20px;
 }
+.Candidate_Education {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.Education_timePeriod {
+  display: flex;
+  justify-content: space-between;
+}
+@media screen and(max-width:425px) {
+  .Education_timePeriod {
+    display: flex;
+    flex-direction: column;
+  }
+}

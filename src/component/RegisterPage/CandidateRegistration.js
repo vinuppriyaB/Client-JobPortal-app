@@ -4,7 +4,6 @@ import { UserState } from "../../context/UserProvider";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "./CandidateRegistration.css";
@@ -12,6 +11,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router";
 import axios from "axios";
+
+// Rregistration for Candidate
 
 const CandidateRegistration = () => {
   const history = useHistory();
@@ -24,15 +25,8 @@ const CandidateRegistration = () => {
   const [institution, setInstitution] = useState("");
   const [startYear, setStartYear] = useState("");
   const [endYear, setEndYear] = useState("");
+  const [skill, setSkill] = useState("");
   const [resume, setResume] = useState("");
-  const [pdfFile, setPdfFile] = useState(null);
-  const [pdfFileError, setPdfFileError] = useState("");
-
-  // for submit event
-  const [viewPdf, setViewPdf] = useState(null);
-
-  // onchange event
-  const fileType = ["application/pdf"];
 
   const [values, setValues] = useState({
     showPassword: false,
@@ -51,60 +45,38 @@ const CandidateRegistration = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const handlePdfFileChange = (e) => {
-    let selectedFile = e.target.files[0];
-    if (selectedFile) {
-      if (selectedFile && fileType.includes(selectedFile.type)) {
-        let reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onloadend = (e) => {
-          setPdfFile(e.target.result);
-          setPdfFileError("");
-        };
-      } else {
-        setPdfFile(null);
-        setPdfFileError("Please select valid pdf file");
-      }
-    } else {
-      console.log("select your file");
-    }
-  };
+
+  //  Store new Candidatedetailin database
+
   const handleRegister = async (e) => {
     e.preventDefault();
-    const userDetail = {
+
+    const skills = skill.split(",");
+
+    const bodyData = {
       firstName: firstName,
       lastName: lastName,
       email: email,
       password: password,
-      degree: degree,
-      institution: institution,
-      startYear: startYear,
-      endYear: endYear,
-      resume: pdfFile,
+
+      education: [
+        {
+          degree: degree,
+          institution: institution,
+          startYear: startYear,
+          endYear: endYear,
+        },
+      ],
+      skills: skills,
+      resume: resume,
     };
-    console.log(userDetail);
+
     try {
       let res = await axios.post(
-        "http://localhost:5000/api/candidate/register",
-        {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-
-          education: [
-            {
-              degree: degree,
-              institution: institution,
-              startYear: startYear,
-              endYear: endYear,
-            },
-          ],
-
-          resume: pdfFile,
-        }
+        "https://career-growth-platforrm.herokuapp.com/api/candidate/register",
+        bodyData
       );
-      console.log(res);
+
       if (res.data) {
         localStorage.setItem("userData", JSON.stringify(res.data));
         setUser(res.data);
@@ -115,6 +87,7 @@ const CandidateRegistration = () => {
       console.log(e);
     }
   };
+
   return (
     <div className="CanReg_container">
       <div>
@@ -172,60 +145,98 @@ const CandidateRegistration = () => {
           // label="Password"
         />
       </div>
-      <div>
+      <div className="Candidate_Education">
         <InputLabel htmlFor="outlined-adornment-password">Education</InputLabel>
+
+        <div>
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            placeholder="Degree"
+            fullWidth
+            value={degree}
+            onChange={(e) => setDegree(e.target.value)}
+          />
+        </div>
+        <div>
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            placeholder="Institution"
+            fullWidth
+            value={institution}
+            onChange={(e) => setInstitution(e.target.value)}
+          />
+        </div>
+        <div className="Education_timePeriod">
+          <div>
+            <InputLabel htmlFor="outlined-adornment-password">From</InputLabel>
+            <input
+              type="month"
+              id="bdaymonth"
+              name="bdaymonth"
+              placeholder="Start Year"
+              value={startYear}
+              onChange={(e) => setStartYear(e.target.value)}
+            />
+          </div>
+          <div>
+            <InputLabel htmlFor="outlined-adornment-password">To</InputLabel>
+            <input
+              type="month"
+              id="bdaymonth"
+              name="bdaymonth"
+              id="outlined-basic"
+              variant="outlined"
+              placeholder="End Year"
+              value={endYear}
+              onChange={(e) => setEndYear(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <InputLabel htmlFor="outlined-adornment-password">Skills</InputLabel>
         <TextField
           id="outlined-basic"
           variant="outlined"
-          placeholder="Degree"
+          placeholder="Resume URL"
           fullWidth
-          value={degree}
-          onChange={(e) => setDegree(e.target.value)}
+          value={skill}
+          onChange={(e) => setSkill(e.target.value)}
         />
+        <p style={{ fontSize: "11px" }}>Enter skills with comma seperation</p>
       </div>
       <div>
+        <InputLabel htmlFor="outlined-adornment-password">
+          Resume URL
+        </InputLabel>
         <TextField
           id="outlined-basic"
           variant="outlined"
-          placeholder="Institution"
+          placeholder="Resume URL"
           fullWidth
-          value={institution}
-          onChange={(e) => setInstitution(e.target.value)}
+          value={resume}
+          onChange={(e) => setResume(e.target.value)}
         />
       </div>
+
       <div>
-        <TextField
-          id="outlined-basic"
-          variant="outlined"
-          placeholder="Start Year"
-          fullWidth
-          value={startYear}
-          onChange={(e) => setStartYear(e.target.value)}
-        />
-      </div>
-      <div>
-        <TextField
-          id="outlined-basic"
-          variant="outlined"
-          placeholder="End Year"
-          fullWidth
-          value={endYear}
-          onChange={(e) => setEndYear(e.target.value)}
-        />
-      </div>
-      <input
-        type="file"
-        className="form-control"
-        required
-        onChange={handlePdfFileChange}
-      />
-      <div>
-        <Button variant="text" onClick={() => history.push("/login")}>
+        <Button
+          variant="text"
+          className="back_btn"
+          onClick={() => history.push("/login")}
+        >
           Have Account
         </Button>
       </div>
       <div>
-        <Button variant="contained" onClick={(e) => handleRegister(e)}>
+        <Button
+          variant="contained"
+          className="button_color"
+          onClick={(e) => handleRegister(e)}
+        >
           Register
         </Button>
       </div>
@@ -234,3 +245,29 @@ const CandidateRegistration = () => {
 };
 
 export default CandidateRegistration;
+// <input
+//   type="file"
+//   className="form-control"
+//   required
+//   onChange={handlePdfFileChange}
+// />;
+// <div>
+//         <TextField
+//           id="outlined-basic"
+//           variant="outlined"
+//           placeholder="Start Year"
+//           fullWidth
+//           value={startYear}
+//           onChange={(e) => setStartYear(e.target.value)}
+//         />
+//       </div>
+//       <div>
+//         <TextField
+//           id="outlined-basic"
+//           variant="outlined"
+//           placeholder="End Year"
+//           fullWidth
+//           value={endYear}
+//           onChange={(e) => setEndYear(e.target.value)}
+//         />
+//       </div>

@@ -4,24 +4,34 @@ import { UserState } from "../../context/UserProvider";
 import { useHistory } from "react-router";
 import axios from "axios";
 import CandidatesDetails from "./CandidatesDetails";
+import Button from "@mui/material/Button";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import "./CandidatesList.css";
+
+// component to get the Applied Candidate on recruiter side
 const CandidatesList = () => {
   const { id } = useParams();
   const { user, handleGetPost, jobPost } = UserState();
-  console.log(user);
   const history = useHistory();
 
   const [candidates, setCandidates] = useState([]);
   useEffect(() => {
     handleGetCandidateDetails();
   }, []);
+
+  // Applied candidate of respective job post
   const handleGetCandidateDetails = async () => {
+    const headerData = {
+      headers: {
+        token: user.token,
+      },
+    };
     try {
       let res = await axios.get(
-        `http://localhost:5000/api/candidate/getCandidates/${id}`
+        `https://career-growth-platforrm.herokuapp.com/api/candidate/getCandidates/${id}`,
+        headerData
       );
-      console.log(res);
       if (res) {
-        console.log(res.data);
         setCandidates(res.data);
       }
     } catch (e) {
@@ -30,10 +40,18 @@ const CandidatesList = () => {
   };
 
   return (
-    <div>
+    <div className="CanListCard_Container">
+      <h2> Total Candidates Applied :{candidates.length}</h2>
       {candidates.map((candidate, index) => (
         <CandidatesDetails candidate={candidate} key={index} />
       ))}
+      <Button
+        className="back_btn CanBack_btn"
+        variant="text"
+        onClick={(e) => history.goBack()}
+      >
+        <ArrowBackIcon /> Back
+      </Button>
     </div>
   );
 };

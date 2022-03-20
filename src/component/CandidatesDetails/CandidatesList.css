@@ -1,0 +1,27 @@
+.CanListCard_Container {
+  max-width: 1000px;
+  margin: 50px auto;
+}
+.CanBack_btn {
+  font-size: 20px !important;
+  background-color: darkseagreen;
+  margin-left: 50px;
+}
+a {
+  text-decoration: none;
+}
+@media screen and (max-width: 425px) {
+  .CanListCard_Container {
+    width: 100%;
+    margin: 30px auto;
+  }
+  .CanBack_btn {
+    font-size: 17px !important;
+    background-color: darkseagreen;
+    margin-left: 10px;
+  }
+  .Candetail_cardContent {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,30 @@
+.Update_btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.PostUpdate_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+.PostUpdate_Card {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  justify-content: center;
+  width: 500px !important;
+  padding: 30px 20px;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 425px) {
+  .PostUpdate_Card {
+    width: 300px !important;
+  }
+}
+
+h2 {
+  text-align: center;
+}

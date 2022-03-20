@@ -1,40 +1,35 @@
 import "./CandidateJobCard.css";
 import React, { useState, useEffect } from "react";
 import { UserState } from "../../context/UserProvider";
-import InputLabel from "@mui/material/InputLabel";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router";
 import axios from "axios";
-import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Modal from "@mui/material/Modal";
 
+//Component for Diaplay job for Candidate
 const CandidateJobCard = ({ job }) => {
-  console.log(job.appliedby);
   const { user, canSelect, setCanSelect } = UserState();
-  console.log(user);
+  const [applied, setApplied] = useState(false);
   const history = useHistory();
 
-  useEffect(() => {}, []);
+  // Function to Apply for job by Candidate
   const handleApply = async () => {
+    const headerData = {
+      headers: {
+        token: user.token,
+      },
+    };
     try {
       let res = await axios.post(
-        `http://localhost:5000/api/job/apply/${job._id}/${user._id}`
+        `https://career-growth-platforrm.herokuapp.com/api/job/apply/${job._id}/${user._id}`,
+        {},
+        headerData
       );
-      console.log(res);
       if (res) {
-        console.log(res.data);
+        setApplied(true);
       }
     } catch (e) {
       console.log(e);
@@ -69,13 +64,6 @@ const CandidateJobCard = ({ job }) => {
             <p>Location : {job.place}</p>
             <p>Job Type : {job.jobType}</p>
             <p>Openings : {job.opening}</p>
-            <p>CTC : {job.CTC}</p>
-            <p>No of Rounds : {job.roundCount}</p>
-            <p>
-              {job.Rounds.map((r, index) => (
-                <span key={index}>Rounds : {r}</span>
-              ))}
-            </p>
           </div>
         </CardContent>
         <Box
@@ -91,18 +79,23 @@ const CandidateJobCard = ({ job }) => {
         >
           <Button
             variant="contained"
-            // onClick={() => {
-            //   history.push(`/editrecruiterpost/${job._id}`);
-            // }}
+            className="view_btn"
+            onClick={() => {
+              history.push(`/moreabout/${job.postedby}/${job._id}`);
+            }}
           >
             Know more
           </Button>
-          {job.appliedby.includes(user._id) ? (
+          {job.appliedby.includes(user._id) || applied ? (
             <Button variant="contained" disabled>
               Applied
             </Button>
           ) : (
-            <Button variant="contained" onClick={(e) => handleApply(e)}>
+            <Button
+              variant="contained"
+              className="button_color"
+              onClick={(e) => handleApply(e)}
+            >
               Apply
             </Button>
           )}

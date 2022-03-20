@@ -1,8 +1,12 @@
 .Homeheader_container {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 0px 100px;
+  /* padding: 0px 100px; */
+  gap: 40vw;
   background-color: rgb(2, 36, 65);
   color: rgba(234, 180, 30) !important;
 }

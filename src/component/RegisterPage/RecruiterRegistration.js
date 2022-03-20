@@ -4,7 +4,6 @@ import "./RecruiterRegistration.css";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { UserState } from "../../context/UserProvider";
@@ -12,6 +11,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router";
 import axios from "axios";
+
+// Registration form for Recruiter
 
 const RecruiterRegistration = () => {
   const history = useHistory();
@@ -26,6 +27,7 @@ const RecruiterRegistration = () => {
   const [values, setValues] = useState({
     showPassword: false,
   });
+
   const handleChange = (prop) => (event) => {
     setValues({ [prop]: event.target.value });
     setPassword(event.target.value);
@@ -41,9 +43,11 @@ const RecruiterRegistration = () => {
     event.preventDefault();
   };
 
+  // To store detail in database
   const handleRegister = async (e) => {
     e.preventDefault();
-    const userDetail = {
+
+    const bodyData = {
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -51,18 +55,11 @@ const RecruiterRegistration = () => {
       workAt: workAt,
       designation: designation,
     };
-    console.log(userDetail);
+
     try {
       let { data } = await axios.post(
-        "http://localhost:5000/api/recruiter/register",
-        {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-          workAt: workAt,
-          designation: designation,
-        }
+        "https://career-growth-platforrm.herokuapp.com/api/recruiter/register",
+        bodyData
       );
 
       if (data) {
@@ -156,12 +153,20 @@ const RecruiterRegistration = () => {
       </div>
 
       <div>
-        <Button variant="text" onClick={() => history.push("/login")}>
+        <Button
+          variant="text"
+          className="back_btn"
+          onClick={() => history.push("/login")}
+        >
           Have Account
         </Button>
       </div>
       <div>
-        <Button variant="contained" onClick={(e) => handleRegister(e)}>
+        <Button
+          variant="contained"
+          className="button_color"
+          onClick={(e) => handleRegister(e)}
+        >
           Register
         </Button>
       </div>

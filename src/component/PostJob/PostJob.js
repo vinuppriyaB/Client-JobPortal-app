@@ -8,9 +8,9 @@ import Button from "@mui/material/Button";
 import { useHistory } from "react-router";
 import axios from "axios";
 
+// component to post job by Rercruiter
 const PostJob = () => {
   const { user, handleGetPost, jobPost } = UserState();
-  console.log(user);
   const history = useHistory();
   const [companyName, setCompanyName] = useState("");
   const [logo, setlogo] = useState("");
@@ -20,11 +20,16 @@ const PostJob = () => {
   const [CTC, setCTC] = useState("");
   const [opening, setOpening] = useState("");
   const [roundCount, setRoundCount] = useState("");
-  const [Rounds, setRounds] = useState([]);
+  const [Rounds, setRounds] = useState("");
 
+  //Function to post Job
   const handlePost = async (e) => {
     e.preventDefault();
-    const jobDetail = {
+
+    // Interrview Rrround arre converted from string to array
+    const interviewRounds = Rounds.split(",");
+
+    const BodyData = {
       postedby: user._id,
       companyName: companyName,
       logo: logo,
@@ -34,34 +39,31 @@ const PostJob = () => {
       CTC: CTC,
       opening: opening,
       roundCount: roundCount,
-      Rounds: Rounds,
+      Rounds: interviewRounds,
     };
-    console.log(jobDetail);
-    try {
-      let res = await axios.post("http://localhost:5000/api/job/postJob", {
-        postedby: user._id,
-        companyName: companyName,
-        logo: logo,
-        role: role,
-        place: place,
-        jobType: jobType,
-        CTC: CTC,
-        opening: opening,
-        roundCount: roundCount,
-        Rounds: Rounds,
-      });
-      console.log(res);
-      if (res) {
-        console.log(res.data);
-        handleGetPost(user._id);
-        // localStorage.setItem("userInfo", JSON.stringify(res.data));
 
-        // history.push("/chats");
+    const headerData = {
+      headers: {
+        token: user.token,
+      },
+    };
+
+    try {
+      let res = await axios.post(
+        "https://career-growth-platforrm.herokuapp.com/api/job/postJob",
+        BodyData,
+        headerData
+      );
+      if (res) {
+        // handleGetPost(user._id);
+        window.alert("Post successfully");
       }
     } catch (e) {
       console.log(e);
+      window.alert("Invalid Data");
     }
   };
+
   return (
     <div className="PostJob_container">
       <Card className="Post_Card">
@@ -82,7 +84,9 @@ const PostJob = () => {
           />
         </div>
         <div>
-          <InputLabel htmlFor="outlined-adornment-password">Logo</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Logo URL
+          </InputLabel>
           <TextField
             id="outlined-basic"
             variant="outlined"
@@ -159,19 +163,26 @@ const PostJob = () => {
         </div>
         <div>
           <InputLabel htmlFor="outlined-adornment-password">
-            Round List
+            List the Rounds
           </InputLabel>
           <TextField
             id="outlined-basic"
             variant="outlined"
             fullWidth
             value={Rounds}
-            onChange={(e) => setRounds(e.target.value)}
+            onChange={(e) => {
+              setRounds(e.target.value);
+            }}
           />
+          <p style={{ fontSize: "11px" }}>Enter Rounds with comma seperation</p>
         </div>
 
         <div>
-          <Button variant="contained" onClick={(e) => handlePost(e)}>
+          <Button
+            className="button_color"
+            variant="contained"
+            onClick={(e) => handlePost(e)}
+          >
             Post
           </Button>
         </div>
@@ -179,5 +190,5 @@ const PostJob = () => {
     </div>
   );
 };
-
+// {show ? <p>Enter rounds separated by ","</p> : ""}
 export default PostJob;

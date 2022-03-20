@@ -3,7 +3,7 @@
   margin: auto;
 }
 
-@media screen and (max-width: "425px") {
+@media screen and (max-width: 425px) {
   .CanCard_Container {
     width: 100%;
     margin: auto;

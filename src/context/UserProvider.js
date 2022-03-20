@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 const UserContext = createContext();
 
+// Context API for data management of current userDetail
+
 const UserProvider = ({ children }) => {
   const [jobPost, setJobPost] = useState([]);
   const [user, setUser] = useState();
@@ -14,23 +16,26 @@ const UserProvider = ({ children }) => {
     const userData = await JSON.parse(localStorage.getItem("userData"));
     await setUser(userData);
     await console.log(user);
-    // await handleGetPost(user._id);
     if (!userData) history.push("/login");
   }, []);
 
-  // useEffect(() => handleGetPost(), []);
-  const handleGetPost = async (id) => {
+  // Function to get Recruiter post reespectively
+
+  const handleGetPost = async (id, token) => {
+    const headerData = {
+      headers: {
+        token: token,
+      },
+    };
     try {
       let res = await axios.get(
-        `http://localhost:5000/api/job/getrecruiterpost/${id}`
+        `https://career-growth-platforrm.herokuapp.com/api/job/getrecruiterpost/${id}`,
+        headerData
       );
       console.log(res);
       if (res) {
         console.log(res.data);
         setJobPost(res.data);
-        // localStorage.setItem("userInfo", JSON.stringify(res.data));
-
-        // history.push("/chats");
       }
     } catch (e) {
       console.log(e);

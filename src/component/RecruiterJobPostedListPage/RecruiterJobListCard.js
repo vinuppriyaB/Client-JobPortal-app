@@ -1,21 +1,14 @@
 import "./RecruiterJobListCard.css";
 import React, { useState, useEffect } from "react";
 import { UserState } from "../../context/UserProvider";
-import InputLabel from "@mui/material/InputLabel";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router";
 import axios from "axios";
-import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Modal from "@mui/material/Modal";
@@ -30,28 +23,32 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
+// Component to display the job post which is posted by login Recruiter
+
 const RecruiterJobListCard = ({ job, handleGetPost }) => {
-  console.log(job);
   const { user } = UserState();
-  console.log(user);
+
   const history = useHistory();
 
-  useEffect(() => {
-    // handleGetPost();
-  }, []);
-  const handleDelete = async () => {
-    try {
-      let res = await axios.get(
-        `http://localhost:5000/api/job/delete/${job._id}`
-      );
-      console.log(res);
-      if (res) {
-        console.log(res.data);
-        handleGetPost(user._id);
-        handleClose();
-        // localStorage.setItem("userInfo", JSON.stringify(res.data));
+  // function to Delete the Post
 
-        // history.push("/chats");
+  const handleDelete = async () => {
+    const headerData = {
+      headers: {
+        token: user.token,
+      },
+    };
+    try {
+      let res = await axios.delete(
+        `https://career-growth-platforrm.herokuapp.com/api/job/delete/${job._id}`,
+        headerData
+      );
+      if (res) {
+        handleClose();
+        handleGetPost(user._id, user.token);
+
+        window.alert("Deleted Successfully");
       }
     } catch (e) {
       console.log(e);
@@ -96,8 +93,9 @@ const RecruiterJobListCard = ({ job, handleGetPost }) => {
             <p>CTC : {job.CTC}</p>
             <p>No of Rounds : {job.roundCount}</p>
             <p>
+              Rounds :
               {job.Rounds.map((r, index) => (
-                <span key={index}>Rounds : {r}</span>
+                <span key={index}>{` ${r} ,`}</span>
               ))}
             </p>
           </div>
@@ -113,28 +111,37 @@ const RecruiterJobListCard = ({ job, handleGetPost }) => {
           }}
           className="recruiter_card_buttons"
         >
-          <Button variant="contained" disabled>
-            Applied Candidate : {job.appliedby.length}
-          </Button>
+          <p className="back_btn">
+            Applied Candidates :
+            <span
+              style={{ fontWeight: "bolder" }}
+            >{` ${job.appliedby.length}`}</span>
+          </p>
           <Button
             variant="contained"
             onClick={() => {
               history.push(`/candidatedetail/${job._id}`);
             }}
             disabled={job.appliedby.length > 0 ? false : true}
+            className="view_btn"
           >
             view Candidates
           </Button>
           <Button
             variant="contained"
+            className="edit_btn"
             onClick={() => {
               history.push(`/editrecruiterpost/${job._id}`);
             }}
           >
-            Edit <EditIcon />
+            Edit <EditIcon className="icon" />
           </Button>
-          <Button variant="contained" onClick={handleOpen}>
-            delete <DeleteIcon />
+          <Button
+            className="delete_btn"
+            variant="contained"
+            onClick={handleOpen}
+          >
+            delete <DeleteIcon className="icon" />
           </Button>
           <Modal
             open={open}

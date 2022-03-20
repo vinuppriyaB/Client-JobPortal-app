@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import "./HomeHeader.css";
 import { useHistory } from "react-router";
 
+// homepage Nav bar
 const HomeHeader = () => {
   const history = useHistory();
   return (
@@ -11,17 +12,11 @@ const HomeHeader = () => {
         <h3>Job Portal</h3>
       </div>
       <div className="header_right">
-        <Button variant="text" onClick={() => history.push("/register")}>
-          register
+        <Button variant="text" onClick={() => history.push("/")}>
+          Home
         </Button>
         <Button variant="text" onClick={() => history.push("/login")}>
           Login
-        </Button>
-        <Button variant="text" onClick={() => history.push("/recruiter")}>
-          rec
-        </Button>
-        <Button variant="text" onClick={() => history.push("/candidate")}>
-          can
         </Button>
       </div>
     </div>

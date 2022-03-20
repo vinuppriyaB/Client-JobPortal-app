@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import "./RegisterPage.css";
 import Box from "@mui/material/Box";
-import { useHistory } from "react-router";
 import Tab from "@mui/material/Tab";
 import CandidateRegistration from "../component/RegisterPage/CandidateRegistration";
 import RecruiterRegistration from "../component/RegisterPage/RecruiterRegistration";
@@ -10,8 +9,9 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
+// Registration page for recruiter and Candidate
+
 const RegistrationPage = () => {
-  const history = useHistory();
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
