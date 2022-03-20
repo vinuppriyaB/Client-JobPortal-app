@@ -12,11 +12,8 @@ const HomeHeader = () => {
         <h3>Job Portal</h3>
       </div>
       <div className="header_right">
-        <Button variant="text" onClick={() => history.push("/")}>
-          Home
-        </Button>
         <Button variant="text" onClick={() => history.push("/login")}>
-          Login
+          Home
         </Button>
       </div>
     </div>

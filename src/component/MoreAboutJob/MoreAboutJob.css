@@ -3,17 +3,20 @@
   margin: 50px auto;
   padding: 0px 50px;
 }
+
 .AboutJob_Recruiter {
   display: flex;
   flex-direction: column;
 }
+
 .recruiter_Avatar {
-  height: 70px !important;
-  width: 70px !important;
+  height: 50px !important;
+  width: 50px !important;
 }
 .recruiter_Name {
   display: flex;
   align-items: center;
+
   gap: 30px;
 }
 .AboutJob_Company {
@@ -23,16 +26,74 @@
 }
 .Company_logo {
   height: 70px;
-  width: 200px;
+  width: 100px;
 }
 .apply_btns {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 50px;
+}
+.Skills_tags_container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.Card_heading {
+  font-size: 20px;
+  color: rgba(234, 180, 30);
+}
+.Card_titles {
+  color: rgb(2, 36, 65) !important;
+}
+p {
+  font-size: 14px;
+}
+.side_title {
+  font-weight: bold;
+  font-size: 14px;
+  color: navy;
+}
+.Recruiter_name {
+  margin: 5px;
+  padding: 0px;
+  font-size: 15px;
+}
+.Job_Describtion {
+  font-size: 14px;
+  line-height: 1.5;
+  /* background-color: rgb(161, 210, 252); */
+  /* color: darkorange; */
+}
+.Recruiter_Email {
+  color: rgb(156, 117, 10);
+  font-weight: bold;
+}
+.Skill_tags {
+  background-color: rgba(234, 180, 30);
+  color: white;
+  border-radius: 50px;
+  padding: 5px 10px;
 }
 @media screen and (max-width: 425px) {
+  .AboutJob_container {
+    padding: 2px !important;
+    margin: 0px auto;
+    /* background-color: darkslateblue; */
+  }
+  .AboutJob_card {
+    margin: 5px !important;
+    padding: 10px 20px !important;
+  }
   .Company_logo {
     height: 50px;
     width: 70px;
+  }
+  .recruiter_Avatar_wrapper {
+    display: none;
+  }
+  .Company_logo {
+    display: none;
   }
 }

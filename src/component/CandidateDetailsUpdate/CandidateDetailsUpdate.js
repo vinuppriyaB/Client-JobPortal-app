@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CandidateDetailsUpdate.css";
 import { UserState } from "../../context/UserProvider";
 import Card from "@mui/material/Card";
@@ -13,15 +13,26 @@ const CandidateDetailsUpdate = () => {
   const history = useHistory();
   const { user, setUser } = UserState();
   // console.log(user);
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [degree, setDegree] = useState(user.education[0].degree);
-  const [institution, setInstitution] = useState(user.education[0].institution);
-  const [startYear, setStartYear] = useState(user.education[0].startYear);
-  const [endYear, setEndYear] = useState(user.education[0].endYear);
-  const [skill, setSkill] = useState(user.skills.join(","));
-  const [resume, setResume] = useState(user.resume);
 
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [degree, setDegree] = useState();
+  const [institution, setInstitution] = useState();
+  const [startYear, setStartYear] = useState();
+  const [endYear, setEndYear] = useState();
+  const [skill, setSkill] = useState();
+  const [resume, setResume] = useState();
+
+  useEffect(() => {
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+    setDegree(user.education[0].degree);
+    setInstitution(user.education[0].institution);
+    setStartYear(user.education[0].startYear);
+    setEndYear(user.education[0].endYear);
+    setSkill(user.skills.join(","));
+    setResume(user.resume);
+  }, []);
   // Function to update the Candidate Details
   const handleUpdate = async (e) => {
     e.preventDefault();

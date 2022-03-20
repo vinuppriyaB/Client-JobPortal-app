@@ -6,6 +6,7 @@ import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
 import axios from "axios";
 
 // component to post job by Rercruiter
@@ -21,13 +22,20 @@ const PostJob = () => {
   const [opening, setOpening] = useState("");
   const [roundCount, setRoundCount] = useState("");
   const [Rounds, setRounds] = useState("");
-
+  const [ExpFrom, setExpFrom] = useState("");
+  const [ExpTo, setExpTo] = useState("");
+  const [mustHave, setMustHave] = useState("");
+  const [goodToHave, setGoodToHave] = useState("");
+  const [desc, setDesc] = useState("");
+  const [edu, setEdu] = useState("");
   //Function to post Job
   const handlePost = async (e) => {
     e.preventDefault();
 
     // Interrview Rrround arre converted from string to array
     const interviewRounds = Rounds.split(",");
+    const skillMustHave = mustHave.split(",");
+    const skillGoodHave = goodToHave.split(",");
 
     const BodyData = {
       postedby: user._id,
@@ -40,6 +48,12 @@ const PostJob = () => {
       opening: opening,
       roundCount: roundCount,
       Rounds: interviewRounds,
+      ExpFrom: ExpFrom,
+      ExpTo: ExpTo,
+      mustHave: skillMustHave,
+      goodToHave: skillGoodHave,
+      education: edu,
+      desc: desc,
     };
 
     const headerData = {
@@ -47,7 +61,6 @@ const PostJob = () => {
         token: user.token,
       },
     };
-
     try {
       let res = await axios.post(
         "https://career-growth-platforrm.herokuapp.com/api/job/postJob",
@@ -128,6 +141,87 @@ const PostJob = () => {
           />
         </div>
         <div>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Education
+          </InputLabel>
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            fullWidth
+            value={edu}
+            onChange={(e) => setEdu(e.target.value)}
+          />
+        </div>
+        <div>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Experience
+          </InputLabel>
+          <div className="Experience_timePeriod">
+            <div>
+              <InputLabel htmlFor="outlined-adornment-password">Min</InputLabel>
+
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                min="0"
+                max="20"
+                style={{ width: "50px", height: "30px" }}
+                placeholder="0"
+                value={ExpFrom}
+                onChange={(e) => setExpFrom(e.target.value)}
+              />
+            </div>
+            <div>
+              <InputLabel htmlFor="outlined-adornment-password">Max</InputLabel>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                min="0"
+                max="20"
+                style={{ width: "50px", height: "30px" }}
+                placeholder="20"
+                value={ExpTo}
+                onChange={(e) => setExpTo(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+        <div>
+          <InputLabel htmlFor="outlined-adornment-password">Skills</InputLabel>
+          <div>
+            <InputLabel htmlFor="outlined-adornment-password">
+              Must Have
+            </InputLabel>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              fullWidth
+              value={mustHave}
+              onChange={(e) => setMustHave(e.target.value)}
+            />
+            <p style={{ fontSize: "11px" }}>
+              Enter Skills with comma seperation
+            </p>
+          </div>
+          <div>
+            <InputLabel htmlFor="outlined-adornment-password">
+              Good To Have
+            </InputLabel>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              fullWidth
+              value={goodToHave}
+              onChange={(e) => setGoodToHave(e.target.value)}
+            />
+            <p style={{ fontSize: "11px" }}>
+              Enter Skills with comma seperation
+            </p>
+          </div>
+        </div>
+        <div>
           <InputLabel htmlFor="outlined-adornment-password">CTC</InputLabel>
           <TextField
             id="outlined-basic"
@@ -147,6 +241,20 @@ const PostJob = () => {
             fullWidth
             value={opening}
             onChange={(e) => setOpening(e.target.value)}
+          />
+        </div>
+        <div>
+          <InputLabel htmlFor="outlined-adornment-password">
+            About Job
+          </InputLabel>
+          <TextareaAutosize
+            required
+            maxRows={4}
+            aria-label="maximum height"
+            placeholder=""
+            value={desc}
+            style={{ width: "100%", height: 70 }}
+            onChange={(event) => setDesc(event.target.value)}
           />
         </div>
         <div>

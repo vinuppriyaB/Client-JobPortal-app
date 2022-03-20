@@ -47,8 +47,6 @@ const RecruiterJobListCard = ({ job, handleGetPost }) => {
       if (res) {
         handleClose();
         handleGetPost(user._id, user.token);
-
-        window.alert("Deleted Successfully");
       }
     } catch (e) {
       console.log(e);

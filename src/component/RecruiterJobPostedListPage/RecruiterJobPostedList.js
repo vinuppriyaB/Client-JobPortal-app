@@ -8,7 +8,7 @@ import "./RecruiterJobPostedList.css";
 
 const RecruiterJobPostedList = () => {
   const { user, handleGetPost, jobPost } = UserState();
-  console.log(user);
+
   const history = useHistory();
 
   useEffect(() => {

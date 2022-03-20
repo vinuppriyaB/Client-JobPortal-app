@@ -10,6 +10,8 @@ import "./RecruiterPostUpdate.css";
 import { useParams } from "react-router";
 import ArrowBackIosNewSharpIcon from "@mui/icons-material/ArrowBackIosNewSharp";
 
+import TextareaAutosize from "@mui/material/TextareaAutosize";
+
 // Function to Edit the posted job by Recruiter
 
 const RecruiterPostUpdate = () => {
@@ -28,6 +30,12 @@ const RecruiterPostUpdate = () => {
   const [opening, setOpening] = useState("");
   const [roundCount, setRoundCount] = useState("");
   const [Rounds, setRounds] = useState("");
+  const [ExpFrom, setExpFrom] = useState("");
+  const [ExpTo, setExpTo] = useState("");
+  const [mustHave, setMustHave] = useState("");
+  const [goodToHave, setGoodToHave] = useState("");
+  const [desc, setDesc] = useState("");
+  const [edu, setEdu] = useState("");
 
   useEffect(() => {
     getJobDetails();
@@ -58,6 +66,12 @@ const RecruiterPostUpdate = () => {
         setOpening(result.opening);
         setRoundCount(result.roundCount);
         setRounds(result.Rounds.join(","));
+        setExpFrom(result.ExpFrom);
+        setExpTo(result.ExpTo);
+        setMustHave(result.mustHave.join(","));
+        setGoodToHave(result.goodToHave.join(","));
+        setDesc(result.desc);
+        setEdu(result.education);
       }
     } catch (e) {
       console.log(e);
@@ -70,6 +84,8 @@ const RecruiterPostUpdate = () => {
     e.preventDefault();
 
     const interviewRounds = Rounds.split(",");
+    const skillMustHave = mustHave.split(",");
+    const skillGoodHave = goodToHave.split(",");
 
     const bodyData = {
       postedby: user._id,
@@ -82,6 +98,12 @@ const RecruiterPostUpdate = () => {
       opening: opening,
       roundCount: roundCount,
       Rounds: interviewRounds,
+      ExpFrom: ExpFrom,
+      ExpTo: ExpTo,
+      mustHave: skillMustHave,
+      goodToHave: skillGoodHave,
+      education: edu,
+      desc: desc,
     };
     const headerData = {
       headers: {
@@ -167,6 +189,87 @@ const RecruiterPostUpdate = () => {
           />
         </div>
         <div>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Education
+          </InputLabel>
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            fullWidth
+            value={edu}
+            onChange={(e) => setEdu(e.target.value)}
+          />
+        </div>
+        <div>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Experience
+          </InputLabel>
+          <div className="Experience_timePeriod">
+            <div>
+              <InputLabel htmlFor="outlined-adornment-password">Min</InputLabel>
+
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                min="0"
+                max="20"
+                style={{ width: "50px", height: "30px" }}
+                placeholder="0"
+                value={ExpFrom}
+                onChange={(e) => setExpFrom(e.target.value)}
+              />
+            </div>
+            <div>
+              <InputLabel htmlFor="outlined-adornment-password">Max</InputLabel>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                min="0"
+                max="20"
+                style={{ width: "50px", height: "30px" }}
+                placeholder="20"
+                value={ExpTo}
+                onChange={(e) => setExpTo(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+        <div>
+          <InputLabel htmlFor="outlined-adornment-password">Skills</InputLabel>
+          <div>
+            <InputLabel htmlFor="outlined-adornment-password">
+              Must Have
+            </InputLabel>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              fullWidth
+              value={mustHave}
+              onChange={(e) => setMustHave(e.target.value)}
+            />
+            <p style={{ fontSize: "11px" }}>
+              Enter Skills with comma seperation
+            </p>
+          </div>
+          <div>
+            <InputLabel htmlFor="outlined-adornment-password">
+              Good To Have
+            </InputLabel>
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              fullWidth
+              value={goodToHave}
+              onChange={(e) => setGoodToHave(e.target.value)}
+            />
+            <p style={{ fontSize: "11px" }}>
+              Enter Skills with comma seperation
+            </p>
+          </div>
+        </div>
+        <div>
           <InputLabel htmlFor="outlined-adornment-password">CTC</InputLabel>
           <TextField
             id="outlined-basic"
@@ -190,6 +293,20 @@ const RecruiterPostUpdate = () => {
         </div>
         <div>
           <InputLabel htmlFor="outlined-adornment-password">
+            About Job
+          </InputLabel>
+          <TextareaAutosize
+            required
+            maxRows={4}
+            aria-label="maximum height"
+            placeholder=""
+            value={desc}
+            style={{ width: "100%", height: 70 }}
+            onChange={(event) => setDesc(event.target.value)}
+          />
+        </div>
+        <div>
+          <InputLabel htmlFor="outlined-adornment-password">
             No of Rounds
           </InputLabel>
           <TextField
@@ -209,7 +326,9 @@ const RecruiterPostUpdate = () => {
             variant="outlined"
             fullWidth
             value={Rounds}
-            onChange={(e) => setRounds(e.target.value)}
+            onChange={(e) => {
+              setRounds(e.target.value);
+            }}
           />
           <p style={{ fontSize: "11px" }}>Enter Rounds with comma seperation</p>
         </div>

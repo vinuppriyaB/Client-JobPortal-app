@@ -12,11 +12,10 @@ const UserProvider = ({ children }) => {
   const [canSelect, setCanSelect] = useState([true, false, false]);
   const history = useHistory();
 
-  useEffect(async () => {
-    const userData = await JSON.parse(localStorage.getItem("userData"));
-    await setUser(userData);
-    await console.log(user);
-    if (!userData) history.push("/login");
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    setUser(userData);
+    if (!user) history.push("/login");
   }, []);
 
   // Function to get Recruiter post reespectively
@@ -32,9 +31,9 @@ const UserProvider = ({ children }) => {
         `https://career-growth-platforrm.herokuapp.com/api/job/getrecruiterpost/${id}`,
         headerData
       );
-      console.log(res);
+      // console.log(res);
       if (res) {
-        console.log(res.data);
+        // console.log(res.data);
         setJobPost(res.data);
       }
     } catch (e) {

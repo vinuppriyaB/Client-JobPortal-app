@@ -13,6 +13,12 @@
   margin-top: 20px;
 }
 
+.Experience_timePeriod {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 @media screen and (max-width: 425px) {
   .Post_Card {
     width: 300px !important;

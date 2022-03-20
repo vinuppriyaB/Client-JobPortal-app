@@ -11,7 +11,7 @@ import CardMedia from "@mui/material/CardMedia";
 // To display the  Candidate details to recruiter who applied forr their job post
 const CandidatesDetails = ({ candidate }) => {
   const { user } = UserState();
-  console.log(user);
+
   const history = useHistory();
   return (
     <Card
