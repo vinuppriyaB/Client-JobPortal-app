@@ -57,11 +57,13 @@ const RecruiterRegistration = () => {
     };
 
     try {
-      let { data } = await axios.post(
-        "https://career-growth-platforrm.herokuapp.com/api/recruiter/register",
-        bodyData
-      );
-
+      let { data } = await axios
+        .post("http://localhost:5000/api/recruiter/register", bodyData)
+        .catch((e) => {
+          if (e.response.data) {
+            window.alert(`${e.response.data}`);
+          }
+        });
       if (data) {
         localStorage.setItem("userData", JSON.stringify(data));
         setUser(data);
